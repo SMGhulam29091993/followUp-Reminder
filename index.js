@@ -7,7 +7,7 @@ const cors = require("cors");
 const PORT = 8000;
 
 const db = require("./config/mongoose");
-
+const errorHandlerMiddleware = require("./config/errorHandlerMiddleware.js");
 const allowOrigin = ["http://localhost:3000"]
 app.use(cors({
     origin :allowOrigin,
@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(morgan("dev"));
-
+app.use(errorHandlerMiddleware);
 
 app.use("/",require("./routes"))
 
