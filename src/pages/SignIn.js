@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link, useNavigate } from 'react-router-dom';
 
 const SignIn = () => {
-  const [formData,setFormData] = useState({name:"", email:"",password: "",contact:"", designation:"", organization:""});
+  const [formData,setFormData] = useState({ email:"",password: ""});
     const [loading,setLoading] = useState(false);
     const [error,setError] = useState(null);
 
