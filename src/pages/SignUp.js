@@ -58,14 +58,14 @@ const SignUp = () => {
                         <label  style={{width:"20%"}}>
                             Email 
                         </label>
-                        <input type='email' placeholder='Enter your email' value={formData.password} onChange={handleChange} id='password'
+                        <input type='email' placeholder='Enter your email' value={formData.email} onChange={handleChange} id='email'
                             className='border border-slate-700 rounded p-1 outline-none bg-transparent' style={{width:"70%"}} required/>
                     </div>
                     <div className='flex items-center flex-wrap gap-4 mb-2'>
                         <label  style={{width:"20%"}}>
                             Password 
                         </label>
-                        <input type='password' placeholder='Enter your password' value={formData.email} onChange={handleChange} id='email'
+                        <input type='password' placeholder='Enter your password' value={formData.password} onChange={handleChange} id='password'
                             className='border border-slate-700 rounded p-1 outline-none bg-transparent' style={{width:"70%"}} required/>
                     </div>
                     <div className='flex items-center flex-wrap gap-4 mb-2'>
