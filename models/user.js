@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+
 const userSchema = new mongoose.Schema({
     name : {
         type : String,
@@ -24,9 +25,16 @@ const userSchema = new mongoose.Schema({
     organization : {
         type : String,
         require : true
+    },
+    imageURL : {
+        type:String,
+        require : true
     }
 }, {timestamps : true});
 
 const User = mongoose.model("User", userSchema);
+
+
+
 
 module.exports = User;
