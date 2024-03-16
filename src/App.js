@@ -4,6 +4,9 @@ import Home from './pages/Home';
 import SignUp from './pages/SignUp';
 import Header from './Component/Header';
 import SignIn from './pages/SignIn';
+import PrivateRoute from './Component/PrivateRoute';
+import PublicRoute from "./Component/PublicRoute"
+import Profile from './pages/Profile';
 
 
 const App = () => {
@@ -13,8 +16,14 @@ const App = () => {
         <Header/>
         <Routes>
           <Route path="/" element={<Home/>} />
-          <Route path="/sign-up" element={<SignUp/>} />
-          <Route path="/sign-in" element={<SignIn/>} />
+          <Route element={<PrivateRoute/>}>
+            <Route path="/profile" element={<Profile/>} />
+          </Route>
+          <Route element={<PublicRoute/>}>
+            <Route path="/sign-up" element={<SignUp/>} />
+            <Route path="/sign-in" element={<SignIn/>} />
+          </Route>
+          
         </Routes>
       </BrowserRouter>
     </>

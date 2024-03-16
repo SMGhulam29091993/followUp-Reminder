@@ -1,11 +1,13 @@
 import React,{useState} from 'react';
 import axios from "axios";
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { signInFailure, signInStart, signInSuccess, userSelector } from '../redux/user/userSlice';
 
 const SignIn = () => {
+  const {loading, error, currentUser} = useSelector(userSelector);
   const [formData,setFormData] = useState({ email:"",password: ""});
-    const [loading,setLoading] = useState(false);
-    const [error,setError] = useState(null);
+    const dispatch = useDispatch();
 
     const navigate = useNavigate();
 
@@ -22,16 +24,16 @@ const SignIn = () => {
         e.preventDefault();
         console.log(formData);
         try {
-            setLoading(true)
-            const res = await axios.post(`http://localhost:8000/api/v1/user/register`, formData);
+            dispatch(signInStart())
+            const res = await axios.post(`http://localhost:8000/api/v1/user/sign-in`, formData);
             const responseData = res.data;
             console.log(responseData);
             if(!responseData.success){
-                setError(responseData.message);
-                setLoading(false);
+                dispatch(signInFailure(responseData.message));
+                return;
             }
-            setError(null);
-            setLoading(false);
+            dispatch(signInSuccess(responseData.user))
+            console.log("Current User : ", currentUser);
             // if everything goes fine user is registered then navigate to sign-in page
             navigate("/")
 
