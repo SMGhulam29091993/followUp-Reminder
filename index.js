@@ -1,5 +1,6 @@
 const express = require("express");
 require("colors");
+require("dotenv").config();
 const app = express();
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");

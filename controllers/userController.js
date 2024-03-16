@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const bcryptjs = require("bcryptjs");
-
+const cookie = require('cookie');
+const jwt = require("jsonwebtoken");
 
 module.exports.register = async (req,res,next)=>{
     const {password}=req.body;
@@ -25,5 +26,35 @@ module.exports.register = async (req,res,next)=>{
         })
     } catch (error) {
         next(error);
+    }
+};
+
+module.exports.create_session = async (req,res,next)=>{
+    const {email, password} = req.body;
+    try {
+        const user = await User.findOne({email});
+        if(!user){
+            return res.status(404).send({message : "User not found!!", success : false})
+        }
+        const isPassword = bcryptjs.compareSync(password, user.password);
+        if(!isPassword){
+            return res.status(401).send({message : "Invalid username/password", success : false});
+        }
+        const token = jwt.sign({id : user._id}, process.env.JWT_SECRET, {expiresIn : '1d'});
+        const {password : pass, ...rest} = user._doc;
+        res.cookie('jwtToken', token, {httpOnly : true, maxAge: 1000*60*60*24});
+        res.status(200).send({messsge :"User logged in", success : true, user : rest });
+
+    } catch (error) {
+        next(error)
+    }
+};
+
+module.exports.destroySession = (req,res,next)=>{
+    try {
+        res.cookie('jwtToken', "", {httpOnly : true})
+        res.status(200).send({message : "User signed out !!", success : true, user : null})
+    } catch (error) {
+        next(error)
     }
 }
