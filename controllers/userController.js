@@ -40,9 +40,9 @@ module.exports.create_session = async (req,res,next)=>{
         if(!isPassword){
             return res.status(401).send({message : "Invalid username/password", success : false});
         }
-        const token = jwt.sign({id : user._id}, process.env.JWT_SECRET, {expiresIn : '1d'});
+        const token = jwt.sign({id : user._id}, process.env.JWT_SECRET);
         const {password : pass, ...rest} = user._doc;
-        res.cookie('jwtToken', token, {httpOnly : true, maxAge: 1000*60*60*24});
+        res.cookie('jwtToken', token, {httpOnly : true});
         res.status(200).send({messsge :"User logged in", success : true, user : rest });
 
     } catch (error) {
@@ -50,11 +50,11 @@ module.exports.create_session = async (req,res,next)=>{
     }
 };
 
-module.exports.destroySession = (req,res,next)=>{
+module.exports.destroySession = (req, res, next) => {
     try {
-        res.cookie('jwtToken', "", {httpOnly : true})
-        res.status(200).send({message : "User signed out !!", success : true, user : null})
+        res.clearCookie('jwtToken'); // Clear the cookie named 'jwtToken'
+        res.status(200).send({ message: "User signed out !!", success: true, user: null });
     } catch (error) {
-        next(error)
+        next(error);
     }
-}
+};
