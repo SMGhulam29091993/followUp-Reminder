@@ -7,6 +7,7 @@ import SignIn from './pages/SignIn';
 import PrivateRoute from './Component/PrivateRoute';
 import PublicRoute from "./Component/PublicRoute"
 import Profile from './pages/Profile';
+import UpdateProfile from './pages/UpdateProfile';
 
 
 const App = () => {
@@ -18,6 +19,7 @@ const App = () => {
           <Route path="/" element={<Home/>} />
           <Route element={<PrivateRoute/>}>
             <Route path="/profile" element={<Profile/>} />
+            <Route path="/update-profile/:userID" element={<UpdateProfile/>}/>
           </Route>
           <Route element={<PublicRoute/>}>
             <Route path="/sign-up" element={<SignUp/>} />

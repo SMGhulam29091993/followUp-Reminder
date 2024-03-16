@@ -20,7 +20,9 @@ const Header = ()=>{
                 dispatch(logOutFailure(responseData.message));
                 return;
             }
-            dispatch(logOutSuccess(responseData.user));
+            dispatch(logOutSuccess());
+            
+
             navigate("/sign-in")
         } catch (error) {
             if (error.response){
