@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { FaPen } from "react-icons/fa";
 import { userSelector } from '../redux/user/userSlice';
 import {useSelector} from "react-redux";
@@ -6,13 +6,18 @@ import { Link } from 'react-router-dom';
 
 
 const Profile = () => {
-  const {currentUser} = useSelector(userSelector)
+  const {currentUser} = useSelector(userSelector);
+  const fileRef = useRef(null);
+  const [file,setFile] = useState(null);
+
+
   return (
     <>
       <div className='max-w-6xl my-5 border border-black mx-auto'>
         <div className='profile-container max-w-md border border-red-600 p-2 flex flex-col'>
           <div className='image-name-container p-2 flex gap-4 items-center'>
-            <img src="" alt="profileImage" className='h-36 w-36 rounded-full border border-black'/>
+            <input type="file" accept='image/*' id="image" ref={fileRef} hidden onClick={(e)=>e.stopPropagation()} onChange={(e)=>setFile(e.target.files[0])}/>
+            <img src="" alt="profileImage" className='h-36 w-36 rounded-full border border-black cursor-pointer self-center' onClick={()=>fileRef.current.click()}/>
             <div className='flex flex-col'>
               <p className='text-lg'>{currentUser?currentUser.name : "NAME"}</p>
               <p className='text-lg'>{currentUser?currentUser.email :"EMAIL"}</p>
