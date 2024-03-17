@@ -53,7 +53,7 @@ const Header = ()=>{
                             <Link>
                                 <li className='hidden md:inline font-semibold hover:underline cursor-pointer text-white'>Follow-Ups</li>
                             </Link>
-                            <Link to="/profile">
+                            <Link to={`/profile/${currentUser._id}`}>
                                 <li className='hidden md:inline font-semibold hover:underline cursor-pointer text-white'>{currentUser?currentUser.name.split(" ")[0] : "Profile"}</li>
                             </Link>
                             <li className='hidden md:inline font-semibold hover:underline cursor-pointer text-white' onClick={handleLogOut}>Log-Out</li>

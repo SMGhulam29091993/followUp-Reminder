@@ -53,7 +53,7 @@ const userSlice = createSlice({
         updateFailure : (state,action)=>{
             state.error = action.payload;
             state.loading = false;
-        },
+        }
     }
 
 });

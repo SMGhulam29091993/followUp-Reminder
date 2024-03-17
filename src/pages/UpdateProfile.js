@@ -5,7 +5,7 @@ import { updateFailure, updateStart, updateSuccess, userSelector } from '../redu
 import axios from "axios";
 
 const UpdateProfile = () => {
-  const {currentUser, loading, error} = useSelector(userSelector)
+  const {currentUser, loading, error, token} = useSelector(userSelector)
   const params= useParams();
   const dispatch = useDispatch()
   const userID = params.userID;
@@ -28,7 +28,13 @@ const UpdateProfile = () => {
     e.preventDefault();
     try {
       dispatch(updateStart());
-      const res = await axios.put(`http://localhost:8000/api/v1/user/update-profile/${userID}`, formData);
+      const res = await axios.put(`http://localhost:8000/api/v1/user/update-profile/${userID}`, formData,{
+        headers : {
+          'Content-Type' : 'application/json',
+          Authorization : `Bearer ${token}`
+        },
+        withCredentials : true
+      });
       const responseData = res.data;
       console.log(responseData);
       if(!responseData.success){
@@ -37,7 +43,7 @@ const UpdateProfile = () => {
       }
       setTimeout(()=>{
         dispatch(updateSuccess(responseData.user));
-        navigate("/profile")
+        navigate(`/profile/${currentUser._id}`)
       }, 5000)
       
       
@@ -57,7 +63,7 @@ const UpdateProfile = () => {
       }
     }
   }
-
+  console.log(currentUser)
 
   return (
     <>
@@ -69,7 +75,7 @@ const UpdateProfile = () => {
         <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
             
             <input type="text" placeholder='Name' className='rounded-lg border p-3 bg-slate-300' 
-                    id="username" defaultValue={currentUser && currentUser.name} onChange={handleChange}  />
+                    id="name" defaultValue={currentUser && currentUser.name} onChange={handleChange}  />
 
             <input type="text" placeholder='Email' className='rounded-lg border p-3 bg-slate-300' 
                     id="email" defaultValue={currentUser && currentUser.email} onChange={handleChange}  />
