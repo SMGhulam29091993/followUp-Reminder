@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
     },
     imageURL : {
         type:String,
-        require : true
+        default : "default_image_url.jpg"
     }
 }, {timestamps : true});
 

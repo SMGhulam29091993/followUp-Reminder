@@ -2,6 +2,8 @@ const User = require("../models/user.js");
 const bcryptjs = require("bcryptjs");
 const cookie = require('cookie');
 const jwt = require("jsonwebtoken");
+const path = require("path");
+const fs = require("fs");
 
 module.exports.register = async (req,res,next)=>{
     const {password}=req.body;
@@ -60,7 +62,12 @@ module.exports.destroySession = (req, res, next) => {
 };
 
 module.exports.updateUser = async (req, res, next) => {
+    console.log("Request Headers:", req.headers);
     const userId = req.params.id;
+    if(req.user.id !== userId){
+        res.status(401).send({message:"You are not authorized", success: false});
+        return;
+    }
     try {
         // Check if the request body contains a password field
         if (req.body.password) {
@@ -94,3 +101,58 @@ module.exports.updateUser = async (req, res, next) => {
         next(error);
     }
 };
+
+
+module.exports.uploadImage = async (req,res,next)=>{
+    const userId = req.params.id;
+    // if(req.user.id !== userId){
+    //     return res.status(404).send({message : "Unauthorized User", success: false});
+    // }
+    try {
+        const user = await User.findByIdAndUpdate(userId);
+        console.log(user);
+        if (!user) {
+            return res.status(404).send({ message: 'User not found', success: false });
+        }
+
+        // Check if the request contains a file
+        if (!req.file) {
+            return res.status(400).send({ message: 'No file uploaded', success: false });
+        }
+        if(user.imageURL){
+            try {
+                fs.unlinkSync(path.join(__dirname,"..", user.imageURL));
+                console.log(`Previous image is deleted.`);
+            } catch (unlinkError) {
+                console.error('Error in deleting the previous image : ' , unlinkError);
+            }
+            const name = "uploads/profileImage/"+req.file.filename;
+            user.imageURL = name;
+            await user.save();
+        }else{
+            const newImage = "uploads/profileImage/"+req.file.filename;
+            await User.create({imageURL : newImage});
+        }
+        res.status(200).send({message : "Image Upload successfull", success : true})
+        
+    } catch (error) {
+        next(error)
+    } 
+}
+
+module.exports.getImage = async (req,res,next)=>{
+    const userId = req.params.id;
+    try {
+        const user = await User.findById(userId);
+        if(!user){
+            return res.status(404).send({ message: 'User not found', success: false });
+        }
+        if(!user.imageURL || user.imageURL.length == 0){
+            res.status(200).send({message : "No Image Found", success : true});
+            return;
+        }
+        res.status(200).send({message : "Here is your image.", success : true, image : user.imageURL});
+    } catch (error) {
+        next(error)
+    }
+}

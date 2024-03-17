@@ -1,6 +1,6 @@
 const path = require("path");
 const multer = require("multer");
-const { updateUser } = require("../controllers/userController");
+
 
 const storageConfig = multer.diskStorage({
     destination : (req,file,cb)=>{
