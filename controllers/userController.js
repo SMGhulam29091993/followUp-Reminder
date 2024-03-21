@@ -44,7 +44,8 @@ module.exports.create_session = async (req,res,next)=>{
         }
         const token = jwt.sign({id : user._id}, process.env.JWT_SECRET);
         const {password : pass, ...rest} = user._doc;
-        res.cookie('jwtToken', token, {httpOnly : true});
+        const expirationDate = new Date(Date.now() + 25892000000); 
+        res.cookie('jwtToken', token, { httpOnly: true, expires: expirationDate });
         res.status(200).send({messsge :"User logged in", success : true, user : rest, token });
 
     } catch (error) {
