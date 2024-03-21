@@ -8,6 +8,7 @@ import PrivateRoute from './Component/PrivateRoute';
 import PublicRoute from "./Component/PublicRoute"
 import Profile from './pages/Profile';
 import UpdateProfile from './pages/UpdateProfile';
+import FollowupReminder from './pages/FollowupReminder';
 
 
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
           <Route element={<PrivateRoute/>}>
             <Route path="/profile/:userID" element={<Profile/>} />
             <Route path="/update-profile/:userID" element={<UpdateProfile/>}/>
+            <Route path="/followup-reminder" element={<FollowupReminder/>} />
           </Route>
           <Route element={<PublicRoute/>}>
             <Route path="/sign-up" element={<SignUp/>} />

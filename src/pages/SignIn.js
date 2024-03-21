@@ -36,7 +36,7 @@ const SignIn = () => {
             dispatch(token(responseData.token))
             console.log("Loading : ", loading);
             // if everything goes fine user is registered then navigate to sign-in page
-            navigate("/")
+            navigate(`/profile/${currentUser._id}`)
 
         } catch (error) {
             if(error.response){

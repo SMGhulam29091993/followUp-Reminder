@@ -8,7 +8,7 @@ const PublicRoute = () => {
     if(!currentUser){
         return <Outlet/>
     }else{
-        return <Navigate to="/profile"/>
+        return <Navigate to={`/profile/${currentUser._id}`}/>
     }
 }
 

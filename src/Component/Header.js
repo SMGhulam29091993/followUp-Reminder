@@ -50,7 +50,7 @@ const Header = ()=>{
                     </Link>
                     {currentUser?(
                         <>                         
-                            <Link>
+                            <Link to='/followup-reminder'>
                                 <li className='hidden md:inline font-semibold hover:underline cursor-pointer text-white'>Follow-Ups</li>
                             </Link>
                             <Link to={`/profile/${currentUser._id}`}>

@@ -18,3 +18,25 @@ code {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+/* Add this CSS code to your stylesheet or create a separate CSS file */
+
+
+
+
+
+.present {
+  width: 8px;
+  height: 8px;
+  background-color:green ; /* Color of the dot */
+  border-radius: 50%; /* Make the dot round */
+}
+.absent{
+  width: 8px;
+  height: 8px;
+  background-color:red ; /* Color of the dot */
+  border-radius: 50%; /* Make the dot round */
+}
+

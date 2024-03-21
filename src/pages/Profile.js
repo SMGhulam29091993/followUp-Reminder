@@ -58,13 +58,15 @@ const Profile = () => {
           <div className='image-name-container p-2 flex gap-4 items-center'>
             <form encType='multipart/form-data' className='flex flex-col gap-2' onSubmit={handleSubmit}>
               <input type="file" accept='image/.*' id="image" ref={fileRef} hidden onClick={(e)=>e.stopPropagation()} onChange={(e)=>setFile(e.target.files[0])}/>
-              <img src={`http://localhost:8000/${image}`} alt="profileImage" className='h-16 w-16 sm:h-36 sm:w-36 rounded-full border border-black cursor-pointer self-center' onClick={()=>fileRef.current.click()}/>
+              <img src={`http://localhost:8000/${image}`} alt="profileImage" className='h-16 w-16 sm:h-36 sm:w-36 rounded-full border border-black cursor-pointer self-center'
+               onClick={()=>fileRef.current.click()}/>
               {file && <button className='bg-blue-600 p-1 rounded text-white uppercase'>Upload Image</button>}
             </form>
             
             <div className='flex flex-col'>
               <p className='text-sm sm:text-lg'>{currentUser?currentUser.name : "NAME"}</p>
               <p className='text-sm sm:text-lg'>{currentUser?currentUser.email :"EMAIL"}</p>
+              <p className='text-sm sm:text-lg'>{currentUser?currentUser.contact :"CONTACT"}</p>
               <p className='text-sm sm:text-lg'>{currentUser?currentUser.designation: "DESIGNATION"}</p>
               <p className='text-sm sm:text-lg'>{currentUser?currentUser.organization : "ORGANIZATION"}</p>
             </div>

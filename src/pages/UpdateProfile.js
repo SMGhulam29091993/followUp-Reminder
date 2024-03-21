@@ -21,7 +21,7 @@ const UpdateProfile = () => {
       });
   }
 
-  console.log(formData,);
+  // console.log(formData,);
 
 
   const handleSubmit = async (e)=>{
@@ -36,14 +36,15 @@ const UpdateProfile = () => {
         withCredentials : true
       });
       const responseData = res.data;
-      console.log(responseData);
+      // console.log(responseData);
       if(!responseData.success){
         dispatch(updateFailure(responseData.message));
+        console.log(`Response Message : ${responseData.message}`);
         return;
       }
       setTimeout(()=>{
         dispatch(updateSuccess(responseData.user));
-        navigate(`/profile/${currentUser._id}`)
+        navigate(`/profile/${userID}`)
       }, 5000)
       
       
@@ -51,19 +52,22 @@ const UpdateProfile = () => {
       if(error.response){
         if(error.response){
           console.error("Server Error Response:", error.response.data);
+          console.log("Server Error Response:", error.response.data);
           dispatch(updateFailure(error.response.data.message))
           
       }else if(error.request){
           console.error(`No response received from server ${error.request}`);
+          console.log(`No response received from server ${error.request}`);
           dispatch(updateFailure(error.request))
       }else{
           console.error(`Request setup error : ${error.message}`);
+          console.log(`Request setup error : ${error.message}`);
           dispatch(updateFailure(error.message))
       }
       }
     }
   }
-  console.log(currentUser)
+  console.log(error)
 
   return (
     <>
@@ -75,22 +79,22 @@ const UpdateProfile = () => {
         <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
             
             <input type="text" placeholder='Name' className='rounded-lg border p-3 bg-slate-300' 
-                    id="name" defaultValue={currentUser && currentUser.name} onChange={handleChange}  />
+                    id="name" defaultValue={currentUser?currentUser.name:""} onChange={handleChange}  />
 
             <input type="text" placeholder='Email' className='rounded-lg border p-3 bg-slate-300' 
-                    id="email" defaultValue={currentUser && currentUser.email} onChange={handleChange}  />
+                    id="email" defaultValue={currentUser?currentUser.email:""} onChange={handleChange}  />
 
             <input type="password" placeholder='Password' className='rounded-lg border p-3 bg-slate-300' 
                     id="password"  onChange={handleChange}  />
 
             <input type="text" placeholder='Contact Number' className='rounded-lg border p-3 bg-slate-300' 
-                    id="contact" defaultValue={currentUser && currentUser.contact} onChange={handleChange}  />
+                    id="contact" defaultValue={currentUser?currentUser.contact:""} onChange={handleChange}  />
 
             <input type="text" placeholder='Designation' className='rounded-lg border p-3 bg-slate-300' 
-                    id="designation" defaultValue={currentUser && currentUser.designation} onChange={handleChange}  />
+                    id="designation" defaultValue={currentUser?currentUser.designation:""} onChange={handleChange}  />
 
             <input type="text" placeholder='Organization' className='rounded-lg border p-3 bg-slate-300' 
-                    id="organization" defaultValue={currentUser && currentUser.organization} onChange={handleChange}  />
+                    id="organization" defaultValue={currentUser?currentUser.organization:""} onChange={handleChange}  />
 
             <button className='rounded-lg bg-blue-700 uppercase p-3 text-white hover:opacity-80 disabled:opacity:60'>
                     {loading?"Updating":"Update"}</button>
